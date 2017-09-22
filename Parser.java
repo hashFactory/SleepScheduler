@@ -44,10 +44,10 @@ public class Parser
         for (int i = 0; i < number_of_days; i++)
         {
             dates[i] = new TimePoint();
-            fall_asleep_times[i] = new TimePoint();
-            wakeup_times[i] = new TimePoint();
-            nap_asleep_times[i] = new TimePoint();
-            nap_wakeup_times[i] = new TimePoint();
+            fall_asleep_times[i] = new TimePoint(1, 0);
+            wakeup_times[i] = new TimePoint(1, 0);
+            nap_asleep_times[i] = new TimePoint(1, 0);
+            nap_wakeup_times[i] = new TimePoint(1, 0);
 
             total_sleep[i] = new TimePoint();
         }
@@ -77,7 +77,7 @@ public class Parser
 
 
 
-        for (int i = 0; i < number_of_days - 1; i++)
+        for (int i = 0; i < number_of_days - 2; i++)
         {
             String[] sleep_components = sleep_string[i + 1].split(":");
             String[] wakeup_components = wakeup_string[i + 1].split(":");

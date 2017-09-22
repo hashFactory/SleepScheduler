@@ -48,15 +48,18 @@ public class Visualizer
                 double percentage_start = (parser.fall_asleep_times[i].hour * 60 + parser.fall_asleep_times[i].minute);
                 double percentage_end = (parser.wakeup_times[i].hour * 60 + parser.wakeup_times[i].minute);
                 g2.setColor(new Color(210, 200, 200));
-                g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int)width_of_bar, height);
-                g2.fillRect((int) (i * width_of_bar + width_of_bar), 0, (int)width_of_bar, (int) ((percentage_end / (24.0 * 60.0)) * height));
+                if (percentage_end - percentage_start != 0) {
+                    g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int) width_of_bar, height);
+                    g2.fillRect((int) (i * width_of_bar + width_of_bar), 0, (int) width_of_bar, (int) ((percentage_end / (24.0 * 60.0)) * height));
+                }
             }
             else
             {
                 double percentage_start = (parser.fall_asleep_times[i].hour * 60 + parser.fall_asleep_times[i].minute);
                 double percentage_height = (parser.wakeup_times[i].hour * 60 + parser.wakeup_times[i].minute) - percentage_start;
                 g2.setColor(new Color(210, 200, 200));
-                g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int)width_of_bar, (int) ((percentage_height / (24.0 * 60.0)) * height));
+                if (percentage_height > 0)
+                    g2.fillRect((int) ((i + 1) * width_of_bar), (int) ((percentage_start / 1440.0) * (double)height), (int) width_of_bar, (int) ((percentage_height / 1440.0) * (double)height));
             }
         }
 
@@ -75,9 +78,10 @@ public class Visualizer
             g2.setColor(Color.gray);
             g2.drawLine((int)(i * width_of_bar), 0, (int)(i * width_of_bar), height);
             g2.setColor(Color.gray);
-            for (int j = 0; j < 24; j++)
-                g2.drawLine(i, (int)(j * (height / 24.0)), (int)(i + (width_of_bar / 8.0)), (int)(j * (height / 24.0)));
         }
+
+        for (int j = 0; j < 24; j++)
+            g2.drawLine(0, (int)(j * (height / 24.0)), 5, (int)(j * (height / 24.0)));
 
         // Draw 6 hours bars
         for (int i = 0; i < 4; i++)
