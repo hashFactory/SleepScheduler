@@ -19,6 +19,11 @@ public class Main
         parser.read_dates();
         parser.read_main_sleep_times();
 
+        parser.calc_daily_sleep();
 
+        Visualizer v = new Visualizer(parser);
+        v.paint();
+        v.display();
+        v.save();
     }
 }

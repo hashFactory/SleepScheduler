@@ -11,6 +11,8 @@ public class Parser
     public TimePoint[] fall_asleep_times;
     public TimePoint[] wakeup_times;
 
+    public TimePoint[] total_sleep;
+
     public Parser(Scanner _file)
     {
         file = _file;
@@ -27,6 +29,7 @@ public class Parser
         dates = new TimePoint[number_of_days];
         fall_asleep_times = new TimePoint[number_of_days];
         wakeup_times = new TimePoint[number_of_days];
+        total_sleep = new TimePoint[number_of_days];
     }
 
     public void read_dates()
@@ -49,29 +52,33 @@ public class Parser
     public void read_main_sleep_times()
     {
         String[] sleep_string = file_contents.get(1).split(",");
-        TimePoint[] fall_asleep_times = new TimePoint[number_of_days];
-
-        for (int i = 0; i < number_of_days - 1; i++)
-        {
-            String[] components = sleep_string[i+1].split(":");
-            int hour = Integer.parseInt(components[0]);
-            int minute = Integer.parseInt(components[1]);
-
-            fall_asleep_times[i] = new TimePoint(dates[i].year, dates[i].month, (hour >= 0 && hour <= 12) ? dates[i].day : dates[i].day - 1, hour, minute);
-            // System.out.println("Data point " + (i) + "\t" + fall_asleep_times[i].day + "; " + hour + ":" + minute);
-        }
 
         String[] wakeup_string = file_contents.get(2).split(",");
-        TimePoint[] wakeup_times = new TimePoint[number_of_days];
 
         for (int i = 0; i < number_of_days - 1; i++)
         {
-            String[] components = wakeup_string[i+1].split(":");
-            int hour = Integer.parseInt(components[0]);
-            int minute = Integer.parseInt(components[1]);
+            String[] sleep_components = sleep_string[i+1].split(":");
+            String[] wakeup_components = wakeup_string[i+1].split(":");
 
-            wakeup_times[i] = new TimePoint(dates[i].year, dates[i].month, (hour >= 0 && hour <= 12) ? dates[i].day : dates[i].day - 1, hour, minute);
-            // System.out.println("Data point " + (i) + "\t" + wakeup_times[i].day + "; " + hour + ":" + minute);
+            int sleep_hour = Integer.parseInt(sleep_components[0]);
+            int sleep_minute = Integer.parseInt(sleep_components[1]);
+
+            int wakeup_hour = Integer.parseInt(wakeup_components[0]);
+            int wakeup_minute = Integer.parseInt(wakeup_components[1]);
+
+            fall_asleep_times[i] = new TimePoint(dates[i].year, dates[i].month, (sleep_hour >= 0 && sleep_hour <= 12) ? dates[i].day : dates[i].day - 1, sleep_hour, sleep_minute);
+            wakeup_times[i] = new TimePoint(dates[i].year, dates[i].month, (wakeup_hour >= 0 && wakeup_hour <= 18) ? dates[i].day : dates[i].day - 1, wakeup_hour, wakeup_minute);
+            System.out.println("Data point " + (i) + "\t" + fall_asleep_times[i].day + "; " + fall_asleep_times[i].hour + ":" + fall_asleep_times[i].minute);
+            System.out.println("Data point " + (i) + "\t" + wakeup_times[i].day + "; " + wakeup_times[i].hour + ":" + wakeup_times[i].minute);
+        }
+    }
+
+    public void calc_daily_sleep()
+    {
+        for (int i = 0; i < number_of_days - 1; i++)
+        {
+            TimePoint c = TimeMath.diff(fall_asleep_times[i], wakeup_times[i]);
+            total_sleep[i] = c;
         }
     }
 }
