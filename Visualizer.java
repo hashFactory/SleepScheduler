@@ -15,7 +15,7 @@ public class Visualizer
     public Visualizer(Parser _parser)
     {
         parser = _parser;
-        image = new BufferedImage(1000, 1000, BufferedImage.TYPE_3BYTE_BGR);
+        image = new BufferedImage(600, 600, BufferedImage.TYPE_3BYTE_BGR);
     }
 
     public void display()
