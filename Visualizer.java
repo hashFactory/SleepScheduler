@@ -39,25 +39,43 @@ public class Visualizer
         g2.fillRect(0, 0, width, height);
 
         double width_of_bar = width / parser.number_of_days;
-        g2.setColor(Color.lightGray);
 
-        for (int i = 0; i < width; i+= width_of_bar)
-            g2.drawLine(i, 0, i, height);
-
+        // Draw main sleep
         for (int i = 0; i < parser.number_of_days - 1; i++)
         {
-            double percentage = (parser.fall_asleep_times[i].hour * 60 + parser.fall_asleep_times[i].minute);
             if (parser.fall_asleep_times[i].day < parser.dates[i].day)
             {
-                g2.setColor(Color.green);
-                g2.fillRect((int) (i * width_of_bar), (int) ((percentage / (24.0 * 60.0)) * height), (int)width_of_bar, (height));
-                g2.setColor(Color.black);
-                g2.drawRect((int) (i * width_of_bar), (int) ((percentage / (24.0 * 60.0)) * height), (int)width_of_bar, (height));
+                double percentage_start = (parser.fall_asleep_times[i].hour * 60 + parser.fall_asleep_times[i].minute);
+                double percentage_end = (parser.wakeup_times[i].hour * 60 + parser.wakeup_times[i].minute);
+                g2.setColor(Color.lightGray);
+                g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int)width_of_bar, height);
+                g2.fillRect((int) (i * width_of_bar + width_of_bar), 0, (int)width_of_bar, (int) ((percentage_end / (24.0 * 60.0)) * height));
             }
             else
             {
-
+                double percentage_start = (parser.fall_asleep_times[i].hour * 60 + parser.fall_asleep_times[i].minute);
+                double percentage_height = (parser.wakeup_times[i].hour * 60 + parser.wakeup_times[i].minute) - percentage_start;
+                g2.setColor(Color.lightGray);
+                g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int)width_of_bar, (int) ((percentage_height / (24.0 * 60.0)) * height));
             }
+        }
+
+        // Draw main nap
+        for (int i = 0; i < parser.nap_asleep_times.length - 1; i++)
+        {
+            double percentage_start = (parser.nap_asleep_times[i].hour * 60 + parser.nap_asleep_times[i].minute);
+            double percentage_height = (parser.nap_wakeup_times[i].hour * 60 + parser.nap_wakeup_times[i].minute) - percentage_start;
+            g2.setColor(Color.lightGray);
+            g2.fillRect((int) (i * width_of_bar), (int) ((percentage_start / (24.0 * 60.0)) * height), (int)width_of_bar, (int) ((percentage_height / (24.0 * 60.0)) * height));
+        }
+
+        for (int i = 0; i < width; i+= width_of_bar)
+        {
+            g2.setColor(Color.black);
+            g2.drawLine(i, 0, i, height);
+            g2.setColor(Color.gray);
+            for (int j = 0; j < height; j+= height / 24)
+                g2.drawLine(i, j, (int)(i + width_of_bar / 4), j);
         }
     }
 

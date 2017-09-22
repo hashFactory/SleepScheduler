@@ -10,10 +10,7 @@ public class TimeMath
             hours -= 1;
         }
         else
-        {
             minutes = b.minute - a.minute;
-            //hours -= 1;
-        }
 
         TimePoint c = new TimePoint(hours, minutes);
         return c;
