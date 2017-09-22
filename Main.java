@@ -13,7 +13,8 @@ public class Main
 {
     public static void main(String [] args)
     {
-        Path filename = Paths.get("C:/Users/tristan/Downloads/sleep_schedule.csv");
+        Path filename = Paths.get(args[0]);
+
         Scanner file = null;
         try {
             file = new Scanner(filename);
