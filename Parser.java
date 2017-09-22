@@ -99,14 +99,15 @@ public class Parser
         String[] nap_sleep = file_contents.get(3).split(",");
         String[] nap_wakeup = file_contents.get(4).split(",");
 
-        for (int i = 0; i < nap_sleep.length - 1; i++)
+        String[] sleep_components;
+        String[] wakeup_components;
+
+        for (int i = 1; i < nap_sleep.length; i++)
         {
-            String[] sleep_components;
-            String[] wakeup_components;
-            if (nap_sleep[i+1].length() > 0 && nap_wakeup[i+1].length() > 0)
+            if (nap_sleep[i].length() > 0 && nap_wakeup[i].length() > 0)
             {
-                sleep_components = nap_sleep[i + 1].split(":");
-                wakeup_components = nap_wakeup[i + 1].split(":");
+                sleep_components = nap_sleep[i].split(":");
+                wakeup_components = nap_wakeup[i].split(":");
 
                 int sleep_hour = Integer.parseInt(sleep_components[0]);
                 int sleep_minute = Integer.parseInt(sleep_components[1]);
@@ -114,8 +115,8 @@ public class Parser
                 int wakeup_hour = Integer.parseInt(wakeup_components[0]);
                 int wakeup_minute = Integer.parseInt(wakeup_components[1]);
 
-                nap_asleep_times[i] = new TimePoint(dates[i].year, dates[i].month, dates[i].day, sleep_hour, sleep_minute);
-                nap_wakeup_times[i] = new TimePoint(dates[i].year, dates[i].month, dates[i].day, wakeup_hour, wakeup_minute);
+                nap_asleep_times[i] = new TimePoint(dates[i].year, dates[i].month, dates[i].day + 1, sleep_hour, sleep_minute);
+                nap_wakeup_times[i] = new TimePoint(dates[i].year, dates[i].month, dates[i].day + 1, wakeup_hour, wakeup_minute);
             }
             else {}
         }
