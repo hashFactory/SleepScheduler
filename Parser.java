@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Parser
 {
-    public Scanner file;
-    public ArrayList<String> file_contents;
+    private Scanner file;
+    private ArrayList<String> file_contents;
     public int number_of_days;
     public TimePoint[] dates;
     public TimePoint[] fall_asleep_times;
@@ -12,9 +12,9 @@ public class Parser
     public TimePoint[] nap_asleep_times;
     public TimePoint[] nap_wakeup_times;
 
-    public TimePoint[] total_sleep;
+    private TimePoint[] total_sleep;
 
-    public Parser(Scanner _file)
+    Parser(Scanner _file)
     {
         file = _file;
         file_contents = new ArrayList<>();

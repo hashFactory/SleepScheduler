@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 // TODO: Handling months changing
 // TODO: Implement second nap
-// TODO: Better UI for graph
 // TODO: Handling changing years
 // TODO: Pull from google drive everyday with updated graph
 

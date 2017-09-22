@@ -9,10 +9,10 @@ import java.io.IOException;
 
 public class Visualizer
 {
-    Parser parser;
-    BufferedImage image;
+    private Parser parser;
+    private BufferedImage image;
 
-    public Visualizer(Parser _parser)
+    Visualizer(Parser _parser)
     {
         parser = _parser;
         image = new BufferedImage(600, 600, BufferedImage.TYPE_3BYTE_BGR);
